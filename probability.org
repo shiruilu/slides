@@ -43,7 +43,7 @@
 - *Joint Probability Distribution*
   + $p(x, y)$
   + Probability of $X=x$ and $Y=y$
-- *Conditional Probability Dsitribution*
+- *Conditional Probability Distribution*
   + $p(x|y)$
   + Probability of $X=x$ when given $Y=y$
 
