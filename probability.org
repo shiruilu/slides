@@ -1,0 +1,124 @@
+#+Title: Machine Learning Tutorial (I)
+#+Title: Probability Review
+#+Author: (Ray) Shirui Lu
+#+Email: srlu_AT_cs.hku.hk
+
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+OPTIONS: toc:1
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: fade
+#+REVEAL_THEME: beige
+#+REVEAL_HLEVEL: 2
+#+REVEAL_PLUGINS: (highlight markdown)
+
+* Introdution
+** Probability vs Statistics
+#+ATTR_REVEAL: :frag roll-in
+  - *Probability:* using models to predict data. \\
+  - *Statistics:* given dataset, "guessing" the model. \\
+
+* Basic Notations of Probability
+** Notations
+#+ATTR_REVEAL: :frag roll-in
+  - *random variable X* denotes something about which we are uncertain. \\
+    Examples:
+    + X1 = The gender of a randomly drawn person from our class.
+    + X2 = The temperature of HK at 11 am. tomorrow.
+  - *p(x)* denotes *Prob(X=x)*.
+  - *Sample Space* the space of all possible outcomes. \\
+    Examples:
+    + S_X1 -> {"female", "male"}; (discrete)
+    + S_X2 -> Reals; (continuous)
+    + and also mixed;
+
+** Properties of *p(x)*
+#+ATTR_REVEAL: :frag roll-in
+- *p(x)* is known as *probability density function*
+  + $\forall x, p(x) \ge 0$
+  + $\int_{-\infty}^{\infty} p(x)~dx = 1$
+- *Joint Probability Distribution*
+  + $p(x, y)$
+  + Probability of $X=x$ and $Y=y$
+- *Conditional Probability Dsitribution*
+  + $p(x|y)$
+  + Probability of $X=x$ when given $Y=y$
+
+** Exercises on *Joint Probability Distribution* and *Conditional Probability*
+
+   [[./images/marble_description.png]]
+
+** Exercises on *Joint Probability Distribution* and *Conditional Probability*
+   [[./images/marble_result.png]]
+#+ATTR_REVEAL: :frag roll-in
+- *Joint Probability Distribution*
+  + $p(x_1=R, x_2=R) = ?$
+  + *Chain Rule*
+  + $= P(R,R)$ \\
+    $= P(x_2=R|x_1=R)P(x_1=R)$ \\
+    $= (2/7)*(3/8)=3/28$
+- *Conditional Probability Distribution*
+  + $p(x_2=R | x_1=R) = (3/28)/((3/28)+(15/56)) = (2/7)$
+  + *Marginalization* $p(x_1=R) = p(R,R)+p(R,B) = (3/28)+(15/56) = 3/8$
+** *Sum Rule (Marginalization)* and *Chain Rule*
+- *Sum Rule* \\
+   [[./images/sum_rule.png]]
+- *Chain Rule* \\
+   [[./images/chain_rule.png]]
+
+** Bayes' Rule
+
+   [[./images/bayes_rule.png]]
+
+#+ATTR_REVEAL: :frag roll-in
+- $p(x)$ is called "prior".
+- $p(x | y)$ is called "posterior".
+
+** Exercises on Bayes' Rule
+
+   [[./images/exercises_bayes.png]]
+
+** *Independence* and *Conditional Independence*
+   
+   [[./images/independence.png]]
+
+** Exercises on *Independence*
+
+   [[./images/exercises_independence.png]]
+
+** Continuous Case
+   [[./images/continuous.png]]
+   
+** Continuous Case
+   [[./images/continuous_2.png]]
+
+** *Mean* and *Variance*
+   - *Mean* \\
+     [[./images/mean.png]]
+     + understanding *Mean*: COM in physics
+   - *Variance* \\
+     [[./images/variance.png]]
+
+** Exercises on *Mean* and *Variance*
+   [[./images/bernoulli.png]]
+
+** Gaussian Distribution
+   [[./images/gaussian.png]]
+
+** Gaussian Distribution
+   [[./images/gaussian_2.png]]
+
+** Maxium Likelihood Estimation
+- Exercise first
+
+** Maxium Likelihood Estimation for a 1D Gaussian
+   [[./images/mle.png]]
+
+** Maxium Likelihood Estimation for a 1D Gaussian
+   [[./images/mle_2.png]]
+
+** Acknowledgement
+- A lot of materials used in these slides are extracted from Prof. Richard Zemel's [[http://www.cs.toronto.edu/~zemel/documents/411/tut1-prob-linRegression.pdf][slides]], and Prof. Tom Mitchell's [[http://www.cs.cmu.edu/~tom/10601_fall2012/slides/Overfitting_ProbReview-9-6-2012_ann.pdf][slides]].

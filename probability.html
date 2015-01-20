@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Machine Learning Tutorial (I) Probability Review</title>
+<meta name="author" content="((Ray) Shirui Lu)"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/reveal.min.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/theme/beige.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/2.5.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Machine Learning Tutorial (I) Probability Review</h1>
+<h2>(Ray) Shirui Lu</h2>
+<h2><a href="mailto:srlu_AT_cs.hku.hk">srlu_AT_cs.hku.hk</a></h2>
+<h2></h2></section>
+<section>
+<h2>Table of Contents</h2><ul>
+<li>
+<a href="#sec-1">Introdution</a>
+</li>
+<li>
+<a href="#sec-2">Basic Notations of Probability</a>
+</li>
+</ul>
+</section>
+
+<section id="sec-1" >
+
+<h2>Introdution</h2>
+</section>
+<section>
+<section id="sec-1-1" >
+
+<h3>Probability vs Statistics</h3>
+<ul class="org-ul">
+<li class="fragment roll-in"><b>Probability:</b> using models to predict data. <br  />
+</li>
+<li class="fragment roll-in"><b>Statistics:</b> given dataset, "guessing" the model. <br  />
+</li>
+</ul>
+</section>
+
+</section>
+<section id="sec-2" >
+
+<h2>Basic Notations of Probability</h2>
+</section>
+<section>
+<section id="sec-2-1" >
+
+<h3>Notations</h3>
+<ul class="org-ul">
+<li class="fragment roll-in"><b>random variable X</b> denotes something about which we are uncertain. <br  />
+    Examples:
+<ul class="org-ul">
+<li>X1 = The gender of a randomly drawn person from our class.
+</li>
+<li>X2 = The temperature of HK at 11 am. tomorrow.
+</li>
+</ul>
+</li>
+<li class="fragment roll-in"><b>p(x)</b> denotes <b>Prob(X=x)</b>.
+</li>
+<li class="fragment roll-in"><b>Sample Space</b> the space of all possible outcomes. <br  />
+    Examples:
+<ul class="org-ul">
+<li>S<sub>X1</sub> -&gt; {"female", "male"}; (discrete)
+</li>
+<li>S<sub>X2</sub> -&gt; Reals; (continuous)
+</li>
+<li>and also mixed;
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-2" >
+
+<h3>Properties of <b>p(x)</b></h3>
+<ul class="org-ul">
+<li class="fragment roll-in"><b>p(x)</b> is known as <b>probability density function</b>
+<ul class="org-ul">
+<li>\(\forall x, p(x) \ge 0\)
+</li>
+<li>\(\int_{-\infty}^{\infty} p(x)~dx = 1\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in"><b>Joint Probability Distribution</b>
+<ul class="org-ul">
+<li>\(p(x, y)\)
+</li>
+<li>Probability of \(X=x\) and \(Y=y\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in"><b>Conditional Probability Dsitribution</b>
+<ul class="org-ul">
+<li>\(p(x|y)\)
+</li>
+<li>Probability of \(X=x\) when given \(Y=y\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-3" >
+
+<h3>Exercises on <b>Joint Probability Distribution</b> and <b>Conditional Probability</b></h3>
+<img src="./images/marble_description.png" alt="marble_description.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-4" >
+
+<h3>Exercises on <b>Joint Probability Distribution</b> and <b>Conditional Probability</b></h3>
+<img src="./images/marble_result.png" alt="marble_result.png" />
+<ul class="org-ul">
+<li class="fragment roll-in"><b>Joint Probability Distribution</b>
+<ul class="org-ul">
+<li>\(p(x_1=R, x_2=R) = ?\)
+</li>
+<li><b>Chain Rule</b>
+</li>
+<li>\(= P(R,R)\) <br  />
+    \(= P(x_2=R|x_1=R)P(x_1=R)\) <br  />
+    \(= (2/7)*(3/8)=3/28\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in"><b>Conditional Probability Distribution</b>
+<ul class="org-ul">
+<li>\(p(x_2=R | x_1=R) = (3/28)/((3/28)+(15/56)) = (2/7)\)
+</li>
+<li><b>Marginalization</b> \(p(x_1=R) = p(R,R)+p(R,B) = (3/28)+(15/56) = 3/8\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-2-5" >
+
+<h3><b>Sum Rule (Marginalization)</b> and <b>Chain Rule</b></h3>
+<ul class="org-ul">
+<li><b>Sum Rule</b> <br  />
+   <img src="./images/sum_rule.png" alt="sum_rule.png" />
+</li>
+<li><b>Chain Rule</b> <br  />
+   <img src="./images/chain_rule.png" alt="chain_rule.png" />
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-6" >
+
+<h3>Bayes' Rule</h3>
+<img src="./images/bayes_rule.png" alt="bayes_rule.png" />
+
+<ul class="org-ul">
+<li class="fragment roll-in">\(p(x)\) is called "prior".
+</li>
+<li class="fragment roll-in">\(p(x | y)\) is called "posterior".
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-7" >
+
+<h3>Exercises on Bayes' Rule</h3>
+<img src="./images/exercises_bayes.png" alt="exercises_bayes.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-8" >
+
+<h3><b>Independence</b> and <b>Conditional Independence</b></h3>
+<img src="./images/independence.png" alt="independence.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-9" >
+
+<h3>Exercises on <b>Independence</b></h3>
+<img src="./images/exercises_independence.png" alt="exercises_independence.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-10" >
+
+<h3>Continuous Case</h3>
+<img src="./images/continuous.png" alt="continuous.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-11" >
+
+<h3>Continuous Case</h3>
+<img src="./images/continuous_2.png" alt="continuous_2.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-12" >
+
+<h3><b>Mean</b> and <b>Variance</b></h3>
+<ul class="org-ul">
+<li><b>Mean</b> <br  />
+     <img src="./images/mean.png" alt="mean.png" />
+<ul class="org-ul">
+<li>understanding <b>Mean</b>: COM in physics
+</li>
+</ul>
+</li>
+<li><b>Variance</b> <br  />
+     <img src="./images/variance.png" alt="variance.png" />
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-13" >
+
+<h3>Exercises on <b>Mean</b> and <b>Variance</b></h3>
+<img src="./images/bernoulli.png" alt="bernoulli.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-14" >
+
+<h3>Gaussian Distribution</h3>
+<img src="./images/gaussian.png" alt="gaussian.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-15" >
+
+<h3>Gaussian Distribution</h3>
+<img src="./images/gaussian_2.png" alt="gaussian_2.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-16" >
+
+<h3>Maxium Likelihood Estimation</h3>
+<ul class="org-ul">
+<li>Exercise first
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-17" >
+
+<h3>Maxium Likelihood Estimation for a 1D Gaussian</h3>
+<img src="./images/mle.png" alt="mle.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-18" >
+
+<h3>Maxium Likelihood Estimation for a 1D Gaussian</h3>
+<img src="./images/mle_2.png" alt="mle_2.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-2-19" >
+
+<h3>Acknowledgement</h3>
+<ul class="org-ul">
+<li>A lot of materials used in these slides are extracted from Prof. Richard Zemel's <a href="http://www.cs.toronto.edu/~zemel/documents/411/tut1-prob-linRegression.pdf">slides</a>, and Prof. Tom Mitchell's <a href="http://www.cs.cmu.edu/~tom/10601_fall2012/slides/Overfitting_ProbReview-9-6-2012_ann.pdf">slides</a>.
+</li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/js/reveal.min.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: true,
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.10,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+]
+});
+</script>
+</body>
+</html>
