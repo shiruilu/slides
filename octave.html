@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Machine Learning Tutorial (II) Introduction to MATLAB/Octave</title>
+<meta name="author" content="((Ray) Shirui Lu)"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/reveal.min.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/theme/beige.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/2.5.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Machine Learning Tutorial (II) Introduction to MATLAB/Octave</h1>
+<h2>(Ray) Shirui Lu</h2>
+<h2><a href="mailto:srlu_AT_cs.hku.hk">srlu_AT_cs.hku.hk</a></h2>
+<h2></h2></section>
+<section>
+<h2>Table of Contents</h2><ul>
+<li>
+<a href="#sec-1">Introduction</a>
+</li>
+<li>
+<a href="#sec-2">Today's Topic</a>
+</li>
+<li>
+<a href="#sec-3">Future Study</a>
+</li>
+</ul>
+</section>
+
+<section id="sec-1" >
+
+<h2>Introduction</h2>
+</section>
+<section>
+<section id="sec-1-1" >
+
+<h3>Installation</h3>
+<ul class="org-ul">
+<li class="fragment roll-in"><b>Octave Official Instructions (for all environments)</b>: <a href="http://www.gnu.org/software/octave/download.html">http://www.gnu.org/software/octave/download.html</a>
+</li>
+<li class="fragment roll-in"><b>MATLAB (offered in CS student laboratories)</b>: <a href="https://intranet.cs.hku.hk/csintranet/contents/technical/info/pcsoftware-20150108.jsp">HKU CS Department Instructions (may require login, email me if you can't visit)</a> <br  />
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-2" >
+
+<h3>Differences</h3>
+<ul class="org-ul">
+<li><a href="https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB">Differences between Octave and MATLAB</a>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-3" >
+
+<h3>Good Octave Tutorials</h3>
+<ul class="org-ul">
+<li><a href="https://en.wikibooks.org/wiki/Octave_Programming_Tutorial">WikiBooks</a>
+</li>
+<li><a href="https://www.youtube.com/playlist?list=PLj-MRhZ0CQchBj-jb2y9XWs34pV9Xo1hP">Prof. Andrew Ng's Videos</a>
+</li>
+</ul>
+</section>
+
+</section>
+<section id="sec-2" >
+
+<h2>Today's Topic</h2>
+</section>
+<section>
+<section id="sec-2-1" >
+
+<h3>Matrix Operation</h3>
+</section>
+</section>
+<section>
+<section id="sec-2-2" >
+
+<h3>Plotting</h3>
+</section>
+</section>
+<section>
+<section id="sec-2-3" >
+
+<h3>Load and Save data</h3>
+</section>
+</section>
+<section>
+<section id="sec-2-4" >
+
+<h3>Control Flow, Functions and Source file</h3>
+</section>
+
+</section>
+<section id="sec-3" >
+
+<h2>Future Study</h2>
+</section>
+<section>
+<section id="sec-3-1" >
+
+<h3>When you have questions</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">"help".
+</li>
+<li class="fragment roll-in">google, stackoverflow, etc.
+</li>
+<li class="fragment roll-in">me.
+</li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/js/reveal.min.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: true,
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.10,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+]
+});
+</script>
+</body>
+</html>

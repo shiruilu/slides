@@ -1,0 +1,42 @@
+#+Title: Machine Learning Tutorial (II)
+#+Title: Introduction to MATLAB/Octave
+#+Author: (Ray) Shirui Lu
+#+Email: srlu_AT_cs.hku.hk
+
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+OPTIONS: toc:1
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: fade
+#+REVEAL_THEME: beige
+#+REVEAL_HLEVEL: 2
+#+REVEAL_PLUGINS: (highlight markdown)
+
+* Introduction
+** Installation
+#+ATTR_REVEAL: :frag roll-in
+  - *Octave Official Instructions (for all environments)*: [[http://www.gnu.org/software/octave/download.html]]
+  - *MATLAB (offered in CS student laboratories)*: [[https://intranet.cs.hku.hk/csintranet/contents/technical/info/pcsoftware-20150108.jsp][HKU CS Department Instructions (may require login, email me if you can't visit)]] \\
+
+** Differences
+  - [[https://en.wikibooks.org/wiki/MATLAB_Programming/Differences_between_Octave_and_MATLAB][Differences between Octave and MATLAB]]
+
+** Good Octave Tutorials
+  - [[https://en.wikibooks.org/wiki/Octave_Programming_Tutorial][WikiBooks]]
+  - [[https://www.youtube.com/playlist?list=PLj-MRhZ0CQchBj-jb2y9XWs34pV9Xo1hP][Prof. Andrew Ng's Videos]]
+
+* Today's Topic
+** Matrix Operation
+** Plotting
+** Load and Save data
+** Control Flow, Functions and Source file
+
+* Future Study
+** When you have questions
+#+ATTR_REVEAL: :frag roll-in
+  - "help".
+  - google, stackoverflow, etc.
+  - me.
