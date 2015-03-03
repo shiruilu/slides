@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Machine Learning Tutorial (V) Naive Bayes and Text Classification</title>
+<meta name="author" content="((Ray) Shirui Lu)"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/reveal.min.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/theme/beige.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/2.5.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Machine Learning Tutorial (V) Naive Bayes and Text Classification</h1>
+<h2>(Ray) Shirui Lu</h2>
+<h2><a href="mailto:srlu_AT_cs.hku.hk">srlu_AT_cs.hku.hk</a></h2>
+<h2></h2></section>
+<section>
+<h2>Table of Contents</h2><ul>
+<li>
+<a href="#sec-1">Review of A1</a>
+</li>
+<li>
+<a href="#sec-2">The Problem of Text Classification</a>
+</li>
+<li>
+<a href="#sec-3">Naive Bayes Classifier</a>
+</li>
+</ul>
+</section>
+
+<section id="sec-1" >
+
+<h2>Review of A1</h2>
+</section>
+<section>
+<section id="sec-1-1" >
+
+<h3>Bayes Rule in A1 (from Lec04)</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Recall \(E\) in <b>MAP</b>:
+<ul class="org-ul">
+<li>\(E(\tilde{w}) = L(\tilde{w}) + \frac{\lambda}{2}\tilde{w}^T\tilde{w}\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">convert \(E\) back to probabilities by taking \(exp(-E)\):
+<ul class="org-ul">
+<li>\(exp(-E(\tilde{w})) = exp(-L(\tilde{w}) - \frac{\lambda}{2}\tilde{w}^T\tilde{w})\) <br  />
+                        \(= exp(-L(\tilde{w}))exp(-\frac{\lambda}{2}\tilde{w}^T\tilde{w})\) <br  />
+                        \(= \Pi_{i=1}^N P(t_i|x_i)exp(-\frac{\lambda}{2}\tilde{w}^T\tilde{w})\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-2" >
+
+<h3>Bayes Rule in A1 (from Lec04)</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">\(exp(-\frac{\lambda}{2}\tilde{w}^T\tilde{w})\) is proportional to a <b>Gaussian probability density function (PDF)</b>:
+</li>
+<li class="fragment roll-in">We can write this as \(p(\tilde{w}) \propto exp(-\frac{\lambda}{2}\tilde{w}^T\tilde{w})\)
+</li>
+<li class="fragment roll-in">Minimizing \(E\) is equivalent to maximzing:
+<ul class="org-ul">
+<li>\(\Pi_{i=1}^N P(t_i|x_i)p(\tilde{w})\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-3" >
+
+<h3>Bayes Rule in A1 (from Lec04)</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Take a look back at Baye's rule
+<ul class="org-ul">
+<li>\(p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)} \propto p(D|\theta)p(\theta)\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in"><b>prior</b> \((p(\theta))\): how likely \(\theta\) is before observing data.
+</li>
+<li class="fragment roll-in"><b>likelihood</b> \((p(D|\theta))\): how likely the data set \(D\) is if the model parameter is \(\theta\).
+</li>
+<li class="fragment roll-in"><b>posterior</b> \((p(\theta|D))\): how likely \(\theta\) is after observing the data set \(D\).
+</li>
+<li class="fragment roll-in">Estimating the \(\theta\) (learning the model) by maximizing the posterior distribution is called <b>maximum a posteriori (MAP) estimation</b>.
+</li>
+</ul>
+</section>
+
+</section>
+<section id="sec-2" >
+
+<h2>The Problem of Text Classification</h2>
+</section>
+<section>
+<section id="sec-2-1" >
+
+<h3>Positive    or negative    movie review?[Dan Jurafsky]</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Unbelievably disappointing.
+</li>
+<li class="fragment roll-in">This is the greatest screwball comedy ever filmed.
+</li>
+<li class="fragment roll-in">It    was    pathetic. The worst part about it was the boxing scenes.
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-2" >
+
+<h3>Classification Methods: Supervised Machine Learning</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Input:
+<ul class="org-ul">
+<li>a document \(d\).
+</li>
+<li>a fixed set of classes \(C = {c_1, c_2,\ldots, c_j}\)
+</li>
+<li>a training set of \(m\) hand-labeled documents \((d_1,c_1),\ldots,(d_m,c_m)\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Output:
+<ul class="org-ul">
+<li>a learned classifier \(\gamma: d \rightarrow c\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-3" >
+
+<h3>The Bag of words model</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Idea: Represent a text document as a <b>feature vector</b> in order to use machine learning methods.
+</li>
+<li class="fragment roll-in"><b>vocabulary</b>: the set of all different <b>feature</b> words that occur in training set, with a count of how it occurs.
+<ul class="org-ul">
+<li>ignore the order
+</li>
+<li>occurance is independent (naive Bayes): "hello" tends to be followed by a "world"
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-4" >
+
+<h3>Example of Bag of words model</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Documents:
+<ul class="org-ul">
+<li>D1: "Unbelievably disappointing."
+</li>
+<li>D2: "This is the greatest screwball comedy ever filmed."
+</li>
+<li>D3: "It was pathetic. The worst part about it was the boxing scenes."
+</li>
+<li>D4: "Greatest film ever."
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Vocabulary
+<ul class="org-ul">
+<li>V = {disappointing: 1, greatest: 2, pathetic: 1, worst: 1}
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="sec-3" >
+
+<h2>Naive Bayes Classifier</h2>
+</section>
+<section>
+<section id="sec-3-1" >
+
+<h3>A Toy Example [Sebastian Raschka]</h3>
+<img src="./images/toy_dataset_1.png" alt="toy_dataset_1.png" />
+<ul class="org-ul">
+<li class="fragment roll-in">(Training) Dataset
+<ul class="org-ul">
+<li>12 samples, 2 different classes +,-.
+</li>
+<li>2 features: color, geometrical shape.
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Denote
+<ul class="org-ul">
+<li>\(c_j\) be class labels: \(c_j=+\) for +, \(c_j=-\) for -.
+</li>
+<li>\(x_j\) be the 2-dimensional feature vectors: \(x_j = [x_{j1} x_{j2}], x_{j1} \in \{blue, green, red, yellow\}, x_{j2} \in \{circle, square\}\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-2" >
+
+<h3>Classify a new sample</h3>
+<img src="./images/toy_dataset_2.png" alt="toy_dataset_2.png" />
+<ul class="org-ul">
+<li class="fragment roll-in">New Sample
+<ul class="org-ul">
+<li>features \(x=[blue, square]\)
+</li>
+<li>class? (ground truth: +)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">decision rule
+<ul class="org-ul">
+<li>(MAP) \(P(c=+ | x=[blue, square]) \ge P(c=- | x=[blue, square]) ? + : -;\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-3" >
+
+<h3>Classify a new sample</h3>
+<p>
+<img src="./images/toy_dataset_1.png" alt="toy_dataset_1.png" />
+<img src="./images/toy_dataset_2.png" alt="toy_dataset_2.png" />
+</p>
+<ul class="org-ul">
+<li class="fragment roll-in">computing
+<ul class="org-ul">
+<li>(prior) \(P(+) = \frac{7}{12} = 0.58, P(-) = \frac{5}{12} = 0.42\)
+</li>
+<li>(likelihood, +) \(P(x | +) = P(blue | +) \cdot P(square | +) = \frac{3}{7} \cdot \frac{5}{7} = 0.31\) (i.i.d.)
+</li>
+<li>(likelihood, -) \(P(x | -) = P(blue | -) \cdot P(square | -) = \frac{3}{5} \cdot \frac{3}{5} = 0.36\) (i.i.d.)
+</li>
+<li>(posterior, + ) \(P( + | x) \propto P(x | + ) \cdot P(+) = 0.31 \cdot 0.58 = 0.18\)
+</li>
+<li>(posterior, -) \(P(- | x) \propto P(x | -) \cdot P(-) = 0.36 \cdot 0.42 = 0.15\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-4" >
+
+<h3>Classify a new sample</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">computing
+<ul class="org-ul">
+<li>(prior) \(P(+) = \frac{7}{12} = 0.58, P(-) = \frac{5}{12} = 0.42\)
+</li>
+<li>(likelihood, +) \(P(x | +) = P(blue | +) \cdot P(square | +) = \frac{3}{7} \cdot \frac{5}{7} = 0.31\) (i.i.d.)
+</li>
+<li>(likelihood, -) \(P(x | -) = P(blue | -) \cdot P(square | -) = \frac{3}{5} \cdot \frac{3}{5} = 0.36\) (i.i.d.)
+</li>
+<li>(posterior, + ) \(P( + | x) \propto P(x | + ) \cdot P(+) = 0.31 \cdot 0.58 = 0.18\)
+</li>
+<li>(posterior, -) \(P(- | x) \propto P(x | -) \cdot P(-) = 0.36 \cdot 0.42 = 0.15\)
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">on dropping \(p(x)\)
+<ul class="org-ul">
+<li>\(p(x)\) is called evidence
+</li>
+<li>no effect on the final result
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">classification
+<ul class="org-ul">
+<li>\(P(+ | x) \ge P(- | x)\), so classfied as +.
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-5" >
+
+<h3>A trickier case</h3>
+<img src="./images/toy_dataset_3.png" alt="toy_dataset_3.png" />
+<ul class="org-ul">
+<li class="fragment roll-in">New Sample
+<ul class="org-ul">
+<li>features \(x=[yellow, square]\)
+</li>
+<li>likelihood \(P(x | +) = P(yellow | +) \cdot P(square | +) = 0 \cdot \frac{5}{7} = 0\) ?
+</li>
+</ul>
+</li>
+<li class="fragment roll-in">Laplace (add-1) smoothing
+<ul class="org-ul">
+<li>\(\hat{P}(x_i | c)\)
+</li>
+<li>\(= \frac{count(x_i, c) + 1}{\Sigma_{x \in V}(count(x, c) + 1)}\)
+</li>
+<li>\(= \frac{count(x_i, c) + 1}{\Sigma_{x \in V}count(x, c) + |V|}\)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-6" >
+
+<h3>Summarize and apply to Text Classification</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">(training set) feature extraction (bag of words)
+</li>
+<li class="fragment roll-in">Naive Bayes and Language Modeling
+<ul class="org-ul">
+<li>prior (class)
+</li>
+<li>likelihood (i.i.d., laplace smoothing)
+</li>
+<li>drop the evidence term
+</li>
+<li>compute posterior
+</li>
+<li>apply decision rule
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3-7" >
+
+<h3>A Worked Example [Dan Jurafsky]</h3>
+<img src="./images/text_class_eg.png" alt="text_class_eg.png" />
+</section>
+</section>
+</div>
+</div>
+
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/js/reveal.min.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: true,
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1354,
+height: 762,
+margin: 0.10,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+]
+});
+</script>
+</body>
+</html>
