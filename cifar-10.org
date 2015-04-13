@@ -93,7 +93,7 @@ Variables in the current scope:
 
 ** Kaggle (Demo: kNN Baseline)
 #+ATTR_REVEAL: :frag roll-in
-  - [[https://inclass.kaggle.com/c/tiny-images-classification][Our Competition Home on Kaggle (not open yet)]]
+  - [[https://inclass.kaggle.com/c/tiny-images-classification][Our Competition Home on Kaggle]]
   - [Important] Sign up with you *@hku.hk* email, or you won't get entry to it.
   - Upload your solution (label of the 1,200 test data) as csv format now and then to see how well your model performs.
 #+ATTR_REVEAL: :frag roll-in
