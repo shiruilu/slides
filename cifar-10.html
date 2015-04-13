@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Machine Learning Tutorial (VIII) Tiny Images Classification Competition</title>
+<meta name="author" content="((Ray) Shirui Lu)"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/reveal.min.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/theme/beige.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/2.5.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Machine Learning Tutorial (VIII) Tiny Images Classification Competition</h1>
+<h2>(Ray) Shirui Lu</h2>
+<h2><a href="mailto:srlu_AT_cs.hku.hk">srlu_AT_cs.hku.hk</a></h2>
+<h2></h2></section>
+<section>
+<h2>Table of Contents</h2><ul>
+<li>
+<a href="#sec-1">Introduction</a>
+</li>
+<li>
+<a href="#sec-2">Your Task</a>
+</li>
+<li>
+<a href="#sec-3">Q &amp; A</a>
+</li>
+<li>
+<a href="#sec-4">Have Fun!</a>
+</li>
+</ul>
+</section>
+
+<section id="sec-1" >
+
+<h2>Introduction</h2>
+</section>
+<section>
+<section id="sec-1-1" >
+
+<h3>Where are we so far?</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Working on different methods to classify hand written digits:
+</li>
+<li class="fragment roll-in">What we have tried:
+<ul class="org-ul">
+<li>LR(ML,MAP), kNN. (A1)
+</li>
+<li>MLP. (A2)
+</li>
+<li>MoG, PCA. (A3)
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-2" >
+
+<h3>The State-of-the-art</h3>
+<p>
+<img src="./images/mnist_rodrigob.png" alt="mnist_rodrigob.png" width="80%" height="80%" /> <br  />
+[Rodrigo Benenson]
+</p>
+</section>
+
+</section>
+<section>
+<section id="sec-1-3" >
+
+<h3>A real world challenge</h3>
+<img src="./images/cifar-10_categories.png" alt="cifar-10_categories.png" />
+
+<ul class="org-ul">
+<li><a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a> Tiny Images Dataset
+<ul class="org-ul">
+<li>60,000 32*32 RGB color images.
+</li>
+<li>10 object classes, 6,000 each.
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-4" >
+
+<h3>A real world challenge (cont'd)</h3>
+<img src="./images/cifar-10_categories.png" alt="cifar-10_categories.png" />
+
+<ul class="org-ul">
+<li><a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a> is tougher.
+<ul class="org-ul">
+<li>multi-class
+</li>
+<li><img src="./images/bird7.png" alt="bird7.png" /> and <img src="./images/bird10.png" alt="bird10.png" />
+</li>
+<li><img src="./images/horse2.png" alt="horse2.png" /> and <img src="./images/horse9.png" alt="horse9.png" />
+</li>
+<li>&#x2026;
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-1-5" >
+
+<h3>A real world challenge (cont'd)</h3>
+<p>
+<img src="./images/cifar-10_rodrigob.png" alt="cifar-10_rodrigob.png" width="65%" height="65%" /> <br  />
+[Rodrigo Benenson]
+</p>
+</section>
+
+</section>
+<section id="sec-2" >
+
+<h2>Your Task</h2>
+</section>
+<section>
+<section id="sec-2-1" >
+
+<h3>Dataset</h3>
+<pre  class="fragment roll-in">
+octave:1&gt; load a4data
+octave:2&gt; whos
+Variables in the current scope:
+
+   Attr Name              Size                     Bytes  Class
+   ==== ====              ====                     =====  ===== 
+        data_nolabel  31800x3072                97689600  uint8
+        data_test      1200x3072                 3686400  uint8
+        data_train     3000x3072                 9216000  uint8
+        labels_train   3000x1                       3000  uint8
+</pre>
+<ul class="org-ul">
+<li class="fragment roll-in">Reduce sized <a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a>.
+<ul class="org-ul">
+<li>6 categories: 0-airplane, 1-automobile, 2-bird, 3-cat, 4-deer, 5-dog.
+</li>
+<li>Training: 3000 labeled images (500 each), 31800 unlabeled images.
+</li>
+<li>Test: 1200 images.
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-2" >
+
+<h3>Rules</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Goal: Maximize accuracy on test set.
+</li>
+<li class="fragment roll-in">Restrictions 
+<ul class="org-ul">
+<li>Any (supervised, unsupervised) model.
+</li>
+<li>Any programming language. (Instruct us how to run!)
+</li>
+<li>Any publicly available code. (Make sure you tell us!)
+</li>
+<li>Work solo, or as a team of 2.
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-3" >
+
+<h3>Submission</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">A Report (please see a4.pdf for detailed requirements)
+</li>
+<li class="fragment roll-in">Code and Data: Specially, include a script like run_prediction.m.
+<ul class="org-ul">
+<li>Input: an arbitrary size of input test data.
+</li>
+<li>Process: Load you trained model, and run on input test set.
+</li>
+<li>Output: it's corresponding predictions.
+</li>
+<li>Shouldn't take more than 10 mins to run.
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-4" >
+
+<h3>Kaggle (Demo: kNN Baseline)</h3>
+<ul class="org-ul">
+<li class="fragment roll-in"><a href="https://inclass.kaggle.com/c/tiny-images-classification">Our Competition Home on Kaggle (not open yet)</a>
+</li>
+<li class="fragment roll-in">[Important] Sign up with you <b>@hku.hk</b> email, or you won't get entry to it.
+</li>
+<li class="fragment roll-in">Upload your solution (label of the 1,200 test data) as csv format now and then to see how well your model performs.
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre  class="fragment roll-in">id<span style="color: #ff0000;">,</span>label
+1<span style="color: #ff0000;">,</span>0
+2<span style="color: #ff0000;">,</span>0
+...
+1200<span style="color: #ff0000;">,</span>0
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-2-5" >
+
+<h3>Kaggle (cont'd)</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Kaggle evaluates your solution.csv by comparing it line to line with solutions.csv (ground truth labels of test data) we provided.
+</li>
+<li class="fragment roll-in">Performance Measure
+<ul class="org-ul">
+<li>You resulting accuracy and ranking on leaderboard is shown real-time.
+</li>
+<li>But based on 25% of the whole test data, performance on the other 75% is hidden from you.
+</li>
+<li>Advice
+<ul class="org-ul">
+<li>Don't optimize for leaderboard performace, which is likely to overfit the 25% test data. :O
+</li>
+<li>At least beat kNN baseline! :D
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2-6" >
+
+<h3>Marking Criteria</h3>
+<ul class="org-ul">
+<li class="fragment roll-in">Resulting Accuracy. (based on Kaggle)
+</li>
+<li class="fragment roll-in">Creativity of your idea.
+</li>
+<li class="fragment roll-in">Clarity of your report.
+<ul class="org-ul">
+<li>What makes your result good, and why? and/or,
+</li>
+<li>What makes your result unsatisfying, why, and how to improve?
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="sec-3" >
+
+<h2>Q &amp; A</h2>
+</section>
+<section id="sec-4" >
+
+<h2>Have Fun!</h2>
+</section>
+</div>
+</div>
+
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/js/reveal.min.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: true,
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1024,
+height: 768,
+margin: 0.05,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+]
+});
+</script>
+</body>
+</html>
