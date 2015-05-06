@@ -51,7 +51,7 @@
 
    [[./images/marble_description.png]]
 
-** Exercises on *Joint Probability Distribution* and *Conditional Probability*
+** Exercises on *Joint Probability Distribution*
    [[./images/marble_result.png]]
 #+ATTR_REVEAL: :frag roll-in
 - *Joint Probability Distribution*
@@ -60,6 +60,9 @@
   + $= P(R,R)$ \\
     $= P(x_2=R|x_1=R)P(x_1=R)$ \\
     $= (2/7)*(3/8)=3/28$
+** Exercises on *Conditional Probability*
+   [[./images/marble_result.png]]
+#+ATTR_REVEAL: :frag roll-in
 - *Conditional Probability Distribution*
   + $p(x_2=R | x_1=R) = (3/28)/((3/28)+(15/56)) = (2/7)$
   + *Marginalization* $p(x_1=R) = p(R,R)+p(R,B) = (3/28)+(15/56) = 3/8$
