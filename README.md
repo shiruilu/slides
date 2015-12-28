@@ -10,7 +10,7 @@ Enjoy :)
 #Shortcuts:
 |Tut #|Title|Notes|
 |-----|-----|-----|
-|Tut 1|[Probability Review](http://shiruilu.github.io/probability.html)
-|Tut 2|[Introduction to MATLAB/Octave](http://shiruilu.github.io/octave.html)
-|Tut 5|[Naive Bayes and Text Classification](http://shiruilu.github.io/naivebayes.html)
-|Tut 8|[Tiny Images Classification Competition](http://shiruilu.github.io/cifar-10.html)|[Our In-class competition on Kaggle](https://inclass.kaggle.com/c/tiny-images-classification)
+|Tut 1|[Probability Review](http://shiruilu.github.io/slides/probability.html)
+|Tut 2|[Introduction to MATLAB/Octave](http://shiruilu.github.io/slides/octave.html)
+|Tut 5|[Naive Bayes and Text Classification](http://shiruilu.github.io/slides/naivebayes.html)
+|Tut 8|[Tiny Images Classification Competition](http://shiruilu.github.io/slides/cifar-10.html)|[Our In-class competition on Kaggle](https://inclass.kaggle.com/c/tiny-images-classification)
