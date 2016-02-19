@@ -1,0 +1,145 @@
+\documentclass[]{book}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{soln}{Solution}
+\newtheorem{prop}{Proposition}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+\newcommand{\bs}{\boldsymbol}
+\renewcommand{\bibname}{References}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+
+\begin{center}
+{\Large Review of Machine Learning Assignment 1}\\
+\textbf{(Ray) Shirui Lu}\\ %You should put your name here
+March 24, 2015 %You should write the date here.
+\end{center}
+
+\vspace{0.2 cm}
+
+\section*{Convexity of Objective Functions in Logistic Regression}
+\subsection*{Background}
+
+\textdf{Question:} (ML part) Your results should be slightly different for every execution of the code, what is the source of the randomness?
+
+\noindent \textdf{Wrong Answer:} $\bs{w}$ is initialized with random values, different sets of these values converges to different local minimal points.
+
+\noindent \textdf{Comments:} First, the object function is a convex function, so there is no local minimal points, only one global minimal point.
+
+Second, the source of randomness comes from random starting points, and insufficient iterations to finally reach the global minimal point, yet stops at different end point.
+
+Furthermore, There is no need to reach the (theoretical) global minimal point: The improvement is trivial compared to the expensive computational cost, whereas may not obtain an optimal result (overfitting).
+
+\subsection*{Brief Proof to the Convexity of Objective Function $L$\footnote{This a supplementary material, aiming at giving you a more thorough idea over the Logistic Regression loss function, not to be appeared in exams.}}
+\begin{prop}\textbf{Convex Functions of a Single Variable}
+A twice-differentiable function $f$ of a single variable $x$ is convex if and only if
+$$f''(x) \ge 0, \forall x \in \mathrm{dom} f$$
+\end{prop}
+We can extend the definition of convexity to higher dimension.
+\begin{defn}{\textbf{Second Order Condition for Convexity}} \footnote{For some other important concepts I mentioned in the tutorial, please refer to the B\&V Book\cite{bv2004}, which is available free online. (Convex Set\cite[p.~23]{bv2004}, Convex Function\cite[p.~67]{bv2004}).}
+A function $f: \R^n \ra \R$ is twice differentiable. Then $f$ is convex if and only if $\mathrm{dom} f$ is a convex set, and its Hessian is positive semidefinite. \footnote{Please refer to Sec \textbf{$L$ is a convex function}}:
+\begin{proof}
+For notational convenience, here we replace the original subscripts of $i$ with $k$, since we will use $i, j$ later to denote elements of Hessian.
+\begin{align*}
+L(\bs{w}, w_0) &= - \sum\limits_{k=1}^{N}t_klogy_k + (1-t_k)log(1-y_k) \\
+&= \sum\limits_{k=1}^{N}t_klog(1+e^{-\bs{w}^T\bs{x_k}}-w_0) + \sum\limits_{k=1}^{N}(1-t_k)(\bs{w}^T\bs{x}_k+w_0) + \sum\limits_{k=1}^{N}(1-t_k)log(1+e^{-\bs{w}^T\bs{x}_k-w_0}) \\
+&= \sum\limits_{k=1}^{N}log(1+e^{-\bs{w}^T\bs{x_k}-w_0}) + \sum\limits_{k=1}^{N}(1-t_k)(\bs{w}^T\bs{x}_k + w_0) \\
+\end{align*}
+
+Then we use a conclusion: \textbf{Linear combination of convex functions, with non-negative coefficients, is still a convex function}, the proof of this is trivial.
+
+Hence The second term is linear combination of Affine Functions (in 2D its a line, 3D a plane), thus convex (all elements in its Hessian are 0 ).
+
+For the first term, only need to examine $L_k = log(1+e^{-\bs{w}^T\bs{x_k}-w_0})$, if it's convex, $L$ is linear combination of $L_k$, thus convex.
+
+We then denote $\bs{x_k}$ as $\bs{u}$, notice here $\bs{x_k}$ is a vector (while $\bs{x}$ is a matrix).
+
+\begin{align*}
+L_k &= log(1+e^{-\bs{w}^T\bs{x_k}-w_0}) \\
+\frac{\partial L}{\partial w_i} &= (y_k - 1)u_i, \\
+\frac{\partial^2 L}{\partial w_i \partial w_j} &= \frac{\partial}{\partial w_j}(\frac{\partial L}{\partial w_i}) \\
+&= \frac{\partial}{\partial w_j}(y_k - 1)u_i \\
+&= y_k(1 - y_k)u_iu_j,
+\end{align*}
+
+Hence the Hessian of $L_k$ is:
+$$ \bs{H}_{L_k} = y_k(1 - y_k) \bs{u}\bs{u}^T $$
+Then we show the Hessian of $L_k$ is \textbf{positive semidefinite}:
+\begin{align*}
+\forall \bs{z}&:\ {\bs{z}^T} \bs{H}_{L_k} \bs{z} \\
+         &= \bs{z}^T[y_k(1-y_k)\bs{u}\bs{u}^T]\bs{z} \\
+         &= y_k(1-y_k)(\bs{u}^T\bs{z})^2 ,\ notice\ that\ y_k \in (0, 1) \\
+         &\ge 0
+\end{align*}
+$H_{L_k}$ is positive semidefinite, thus L is a convex function.
+\end{proof}
+\bibliography{Tut06}
+\bibliographystyle{plain}
+\end{document}
+
